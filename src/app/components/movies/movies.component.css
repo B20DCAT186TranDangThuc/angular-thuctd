@@ -1,0 +1,25 @@
+
+.parent {
+  display: flex;
+}
+
+.selected {
+  background-color: mediumseagreen !important;
+  color: #fff;
+}
+
+.movies {
+  background: #3399ff;
+  padding: 0.5em 1em 0.5em 1.5em;
+  margin: 1em;
+  max-width: 16em;
+}
+
+.movies .listItem {
+  font-size: 0.875em;
+  font-family: Georgia, serif;
+  background: #cce5ff;
+  text-align: left;
+  margin: 0.2em;
+  padding: 1em;
+}
