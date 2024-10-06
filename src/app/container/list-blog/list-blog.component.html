@@ -1,0 +1,68 @@
+<div class="modal-content">
+  <h2 class="title-content">List Blogs</h2>
+
+  @if (isLoading == true) {
+    <app-loader></app-loader>
+  } @else {
+    <div class="main-content">
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Tin</th>
+          <th scope="col">Loại</th>
+          <th scope="col">Trạng thái</th>
+          <th scope="col">Vị trí</th>
+          <th>Ngày public</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let blog of blogs">
+          <th scope="row"> {{ blog.id }}</th>
+          <td style="width: 40%;"> {{ blog.title }}</td>
+          <td> {{ categories[blog.category].name }}</td>
+          <td>
+            <span class="badge" [ngClass]="{'bg-success': blog.public, 'bg-danger': !blog.public}">
+  {{ blog.public ? 'Public' : 'Private' }}
+</span>
+          </td>
+          <td>
+            <div *ngFor="let idx of blog.position">{{positions[idx-1].name}}</div>
+          </td>
+          <td> {{ blog.data_public | date:'dd/MM/yyyy' }}</td>
+          <td class="d-flex justify-content-sm-around">
+            <a class="btn btn-success" href="/edit/{{blog.id}}">Edit</a>
+            <button class="btn btn-danger" (click)="openConfirmModal(blog.id)">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  }
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Xác Nhận Xóa</h5>
+
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa blog này không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-danger" (click)="deleteBlog(selectedBlogId)" data-dismiss="modal">Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

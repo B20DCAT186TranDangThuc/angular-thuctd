@@ -1,0 +1,19 @@
+.sidebar {
+  height: 100vh; /* Full-height */
+  position: fixed; /* Sticky */
+  top: 50px; /* Stay at the top */
+  left: 0; /* Align to the left */
+  width: 250px; /* Width of the sidebar */
+  background-color: #f8f9fa; /* Light background */
+  padding: 20px; /* Padding */
+}
+
+.nav-item {
+  display: block; /* Ensure links are block elements */
+  padding: 10px 15px; /* Add padding for clickable area */
+  color: #000; /* Text color */
+  text-decoration: none; /* Remove underline */
+}
+.nav-item:hover {
+  background-color: #e2e2e2; /* Change background on hover */
+}

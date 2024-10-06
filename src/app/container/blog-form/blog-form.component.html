@@ -1,0 +1,75 @@
+<div class="modal-content">
+  <h2 class="title-content">List Blogs</h2>
+
+  <form [formGroup]="blogForm" class="main-content" (ngSubmit)="submitForm()">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+      <div class="col">
+        <div data-mdb-input-init class="form-outline">
+          <label class="form-label" for="form6Example1">Tiêu đề</label>
+          <input type="text" id="form6Example1" class="form-control" formControlName="title"/>
+        </div>
+      </div>
+      <div class="col">
+        <div data-mdb-input-init class="form-outline">
+          <label class="form-label" for="form6Example2">Mô tả ngắn</label>
+          <input type="text" id="form6Example2" class="form-control" formControlName="des"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <label class="form-label" for="form6Example7">Chi tiết</label>
+      <textarea class="form-control" id="form6Example7" rows="4" formControlName="detail"></textarea>
+    </div>
+
+    <!--Image-->
+    <div class="row mb-4">
+      <div class="form-outline mb-4 col">
+        <label class="form-check-label" for="image">Hình ảnh</label>
+        <div class="mb-4 d-flex justify-content-center">
+          <img id="selectedImage" [src]="selectedImageUrl" id="image" alt="example placeholder" style="width: 200px;" />
+        </div>
+        <div class="d-flex justify-content-center">
+          <div data-mdb-ripple-init class="btn btn-primary btn-rounded">
+            <label class="form-label text-white m-1" for="customFile1">Choose file</label>
+            <input type="file" class="form-control d-none" id="customFile1" (change)="displaySelectedImage($event)" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <label class="form-check-label" for="position">Vị trí</label>
+        <div class="form-check" *ngFor="let position of positions">
+          <input class="form-check-input" id="position" type="checkbox" [value]="position.id" (change)="onPositionChange($event)" [checked]="blogForm.value.position.includes(position.id)">
+          <label class="form-check-label" >{{ position.name }}</label>
+        </div>
+      </div>
+    </div>
+
+    <!--Select category-->
+    <div class="row mb-4">
+      <div class="col">
+        <label class="form-label" for="category">Loại</label>
+        <select class="form-select" id="category" formControlName="category" aria-label="Default select example">
+          <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+      <div class="col">
+        <div data-mdb-input-init class="form-outline">
+          <label class="form-label" for="datePublic">Date Public</label>
+          <input type="date" id="datePublic" class="form-control" formControlName="data_public" />
+        </div>
+      </div>
+
+    </div>
+    <div class="form-check form-switch mb-4">
+      <input class="form-check-input" type="checkbox" id="public" formControlName="public">
+      <label class="form-check-label" for="public">Public</label>
+    </div>
+
+    <!-- Submit button -->
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4" [disabled]="blogForm.invalid">{{ blogId ? 'Update' : 'Create' }}</button>
+  </form>
+</div>
