@@ -104,8 +104,10 @@ export class BlogFormComponent implements OnInit {
 
     const blogData = this.blogForm.value;
 
+
     blogData.category = Number(blogData.category); // Chuyển đổi category thành number
     blogData.position = blogData.position.map((pos: string) => Number(pos)); // Chuyển đổi mỗi phần tử trong position thành number
+
 
     if (this.blogId) {
       // Cập nhật blog
@@ -139,7 +141,7 @@ export class BlogFormComponent implements OnInit {
     if (event.target.checked) {
       positionsArray.push(positionId); // Thêm vị trí nếu checkbox được chọn
     } else {
-      const index = positionsArray.indexOf(positionId);
+      const index = positionsArray.indexOf(Number(positionId));
       if (index > -1) {
         positionsArray.splice(index, 1); // Xóa vị trí nếu checkbox bị bỏ chọn
       }

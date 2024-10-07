@@ -1,10 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Blogs} from "../../Models/Blogs";
 import {BlogService} from "../../services/blog.service";
 import * as bootstrap from 'bootstrap';
 import {Categories} from "../../Models/Categories";
 import {CategoryService} from "../../services/category.service";
-import {PositionService} from "../../services/position.service";
 import {Position} from "../../Models/Position";
 
 @Component({
@@ -14,39 +13,32 @@ import {Position} from "../../Models/Position";
 })
 export class ListBlogComponent implements OnInit {
 
-  @Output()
-  listCategoriesAndPositions: EventEmitter<{ list1: Categories[], list2: Position[] }> = new EventEmitter<{
-    list1: Categories[],
-    list2: Position[]
-  }>();
-
   blogs: Blogs[] = []
+  filteredBlogs: Blogs[] = [];
   categories: Categories[] = []
-  positions: Position[] = []
+  positions: Position[] = [
+    {
+      "id": 0,
+      "name": "Việt Nam"
+    },
+    {
+      "id": 1,
+      "name": "Châu Á"
+    },
+    {
+      "id": 2,
+      "name": "Châu Âu"
+    },
+    {
+      "id": 3,
+      "name": "Châu Mỹ"
+    }
+  ]
   isLoading: boolean = true;
   selectedBlogId: number = 0;
 
   constructor(private blogService: BlogService,
-              private categoryService: CategoryService,
-              private positionService: PositionService) {
-  }
-
-  sendData() {
-    const data = {
-      list1: this.categories,
-      list2: this.positions
-    }
-
-    this.listCategoriesAndPositions.emit(data);
-  }
-
-  loadPositions(): void {
-    this.positionService.getPositions().subscribe(
-      {
-        next: value => this.positions = value,
-        error: err => console.log(err)
-      }
-    )
+              private categoryService: CategoryService,) {
   }
 
   loadCategories(): void {
@@ -54,7 +46,6 @@ export class ListBlogComponent implements OnInit {
       {
         next: value => {
           this.categories = value;
-          console.log(this.categories)
         },
         error: err => console.log(err)
       }
@@ -66,7 +57,8 @@ export class ListBlogComponent implements OnInit {
       {
         next: value => {
           this.blogs = value;
-          this.blogs.forEach(b => console.log(b.id, b.title, b.des, b.detail))
+          this.blogs.forEach(b => console.log(b.id, b.title))
+          this.filteredBlogs = this.blogs;
           this.isLoading = false;
         },
         error: error => {
@@ -79,9 +71,18 @@ export class ListBlogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadBlogs();
     this.loadCategories();
-    this.loadPositions();
+    this.loadBlogs();
+  }
+
+  getCategoryName(categoryId: number): string {
+    const category = this.categories.find(c => c.id === categoryId);
+    return category ? category.name : 'N/A';
+  }
+
+  getPositionName(positionId: number): string {
+    const position = this.positions.find(p => p.id === positionId);
+    return position ? position.name : 'N/A';
   }
 
   openConfirmModal(id: number): void {
@@ -119,5 +120,21 @@ export class ListBlogComponent implements OnInit {
     )
     this.closeModal();
   }
+
+  onSearchChange(searchTerm: string): void {
+
+    let textTarget = searchTerm.trim();
+
+    if (!textTarget) {
+      this.filteredBlogs = this.blogs; // Nếu ô tìm kiếm trống, hiển thị tất cả blog
+    } else {
+      this.filteredBlogs = this.blogs.filter(blog =>
+        blog.title.toLowerCase().includes(textTarget.toLowerCase()) ||
+        blog.des.toLowerCase().includes(textTarget.toLowerCase()) ||
+        this.categories[blog.category].name.toLowerCase().includes(textTarget.toLowerCase())
+      );
+    }
+  }
+
 
 }

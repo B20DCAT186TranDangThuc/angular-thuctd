@@ -1,6 +1,8 @@
 <div class="modal-content">
   <h2 class="title-content">List Blogs</h2>
 
+  <app-search (search)="onSearchChange($event)"></app-search>
+
   @if (isLoading == true) {
     <app-loader></app-loader>
   } @else {
@@ -19,17 +21,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let blog of blogs">
+        <tr *ngFor="let blog of filteredBlogs">
           <th scope="row"> {{ blog.id }}</th>
           <td style="width: 40%;"> {{ blog.title }}</td>
-          <td> {{ categories[blog.category].name }}</td>
+          <td *ngIf="categories && blog.category !== null && blog.category !== undefined">
+            {{ getCategoryName(blog.category) }}
+          </td>
           <td>
             <span class="badge" [ngClass]="{'bg-success': blog.public, 'bg-danger': !blog.public}">
   {{ blog.public ? 'Public' : 'Private' }}
 </span>
           </td>
           <td>
-            <div *ngFor="let idx of blog.position">{{positions[idx-1].name}}</div>
+            <div *ngFor="let posId of blog.position">
+              {{ getPositionName(posId) }}
+            </div>
           </td>
           <td> {{ blog.data_public | date:'dd/MM/yyyy' }}</td>
           <td class="d-flex justify-content-sm-around">

@@ -12,7 +12,8 @@ import { SearchBlogComponent } from './container/search-blog/search-blog.compone
 import {HttpClientModule} from "@angular/common/http";
 import { LoaderComponent } from './loader/loader.component';
 import { BlogFormComponent } from './container/blog-form/blog-form.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { SearchComponent } from './container/list-blog/search/search.component';
 
 @NgModule({
   declarations: [
@@ -24,13 +25,15 @@ import {ReactiveFormsModule} from "@angular/forms";
     ListBlogComponent,
     SearchBlogComponent,
     LoaderComponent,
-    BlogFormComponent
+    BlogFormComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
